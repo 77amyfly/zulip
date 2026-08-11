@@ -45,6 +45,18 @@ run_test("get_pygments_typeahead_list_for_composebox", () => {
     );
 });
 
+run_test("normalize_playground_language", () => {
+    assert.equal(realm_playground.normalize_playground_language("Rust"), "Rust");
+
+    assert.equal(realm_playground.normalize_playground_language("RUST"), "Rust");
+
+    assert.equal(realm_playground.normalize_playground_language("rust"), "Rust");
+
+    assert.equal(realm_playground.normalize_playground_language("rs"), "Rust");
+
+    assert.equal(realm_playground.normalize_playground_language("MyLanguage"), "mylanguage");
+});
+
 run_test("get_pygments_typeahead_list_for_settings", () => {
     initialize_user_settings({user_settings: {}});
 

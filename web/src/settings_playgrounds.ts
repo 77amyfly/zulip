@@ -116,9 +116,14 @@ function build_page(): void {
             const $add_playground_button = $(".new-playground-form button");
             $add_playground_button.prop("disabled", true);
             $playground_status.hide();
+            const entered_language = String($("#playground_pygments_language").val() ?? "").trim();
+
+            const pygments_language =
+                realm_playground.normalize_playground_language(entered_language);
+
             const data = {
                 name: $("#playground_name").val(),
-                pygments_language: $("#playground_pygments_language").val(),
+                pygments_language,
                 url_template: $("#playground_url_template").val(),
             };
             void channel.post({

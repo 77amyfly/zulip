@@ -37,6 +37,32 @@ export function get_aliases_for_pretty_name(pretty_name: string): string[] {
     return map_pygments_pretty_name_to_aliases.get(pretty_name) ?? [];
 }
 
+export function get_pygments_pretty_name(language: string): string | undefined {
+    const normalized_language = language.toLowerCase();
+
+    for (const [pretty_name, aliases] of map_pygments_pretty_name_to_aliases) {
+        if (pretty_name.toLowerCase() === normalized_language) {
+            return pretty_name;
+        }
+
+        if (aliases.some((alias) => alias.toLowerCase() === normalized_language)) {
+            return pretty_name;
+        }
+    }
+
+    return undefined;
+}
+
+export function normalize_playground_language(language: string): string {
+    const pygments_pretty_name = get_pygments_pretty_name(language);
+
+    if (pygments_pretty_name !== undefined) {
+        return pygments_pretty_name;
+    }
+
+    return language.toLowerCase();
+}
+
 function sort_pygments_pretty_names_by_priority(
     comparator_func: (a: string, b: string) => number,
 ): void {
